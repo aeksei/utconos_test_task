@@ -1,8 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class AppUserBase(BaseModel):
-    email: str
+    email: EmailStr
     phone: str
 
 
