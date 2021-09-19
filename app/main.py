@@ -1,6 +1,6 @@
 import sys
 
-from fastapi import FastAPI, Depends, Form
+from fastapi import FastAPI, Depends, Form, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal, engine
@@ -38,6 +38,12 @@ async def create_user(email: str = Form(...),
         phone=phone,
         comment=comment,
     )
+    db_user = crud.get_user_by_phone(db, user.phone)
+    if db_user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Phone already registered")
 
-    db_user = crud.create_user(db, user)
-    return db_user
+    db_user = crud.get_user_by_email(db, user.email)
+    if db_user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
+
+    return crud.create_user(db, user)
