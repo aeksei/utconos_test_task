@@ -29,7 +29,7 @@ async def read_root():
     return {"message": message}
 
 
-@app.post("/users/", response_model=schemas.AppUser)
+@app.post("/users/", status_code=status.HTTP_201_CREATED, response_model=schemas.AppUser)
 async def create_user(email: str = Form(...),
                       phone: str = Form(...),
                       comment: str = Form(default=""),
