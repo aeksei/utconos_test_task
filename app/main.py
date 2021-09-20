@@ -46,11 +46,11 @@ async def create_user(email: str = Form(...),
 
     db_user = crud.get_user_by_phone(db, user.phone)
     if db_user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Phone already registered")
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Phone already registered")
 
     db_user = crud.get_user_by_email(db, user.email)
     if db_user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Email already registered")
 
     if picture is not None:
         ...  # todo save picture in storage
